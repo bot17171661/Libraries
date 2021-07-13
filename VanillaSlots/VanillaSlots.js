@@ -1,6 +1,6 @@
 LIBRARY({
     name: "VanillaSlots",
-    version: 2,
+    version: 3,
     shared: true,
     api: "CoreEngine"
 });
@@ -301,7 +301,7 @@ function registerForWindow(_window, _container, _options){
         var _elements_ = element.window.getContent().elements;
         _elements_['scale1___'].scale = 60/108*slotSize/15;
         _elements_["selection1___"].width = _elements_["selection1___"].height = slotSize;
-        var slot_id = this.slot_id || this.slot_id___;
+        var slot_id = this.slot_id || this.slot_id___ || 0;
         var uiAdapter = element.window.getContainer();
         chestData.container = uiAdapter.getParent();
         chestData.currentWindow = element.window;
@@ -555,11 +555,11 @@ function registerForWindow(_window, _container, _options){
                     x: windowContent.elements[i].x,
                     y: windowContent.elements[i].y,
                     z: -100,
-                    width: windowContent.elements[i].size,
-                    height: windowContent.elements[i].size,
+                    width: windowContent.elements[i].size || 60,
+                    height: windowContent.elements[i].size || 60,
                     bitmap: "_default_slot_empty",
-                    slot_id: windowContent.elements[i].index,
-                    slot_size:  windowContent.elements[i].size,
+                    slot_id: windowContent.elements[i].index || 0,
+                    slot_size:  windowContent.elements[i].size || 60,
                     slot_textid: i,
                     scale: 1,
                     onTouchEvent: slotOnTouchEvent
