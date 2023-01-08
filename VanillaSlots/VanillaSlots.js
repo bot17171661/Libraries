@@ -1,6 +1,6 @@
 LIBRARY({
     name: "VanillaSlots",
-    version: 3,
+    version: 4,
     shared: true,
     api: "CoreEngine"
 });
@@ -133,6 +133,12 @@ var defaultFunctions = {
         var slot2 = container.getSlot(eventData.slot2).asScriptable();
         var transferPolicy2 = container.getAddTransferPolicy(eventData.slot2);
         if((slot2.id != slot1.id || slot2.data != slot1.data || (slot2.extra != slot1.extra && ((!slot2.extra || slot2.extra.getAllCustomData()) != (!slot1.extra || slot1.extra.getAllCustomData())))) && slot2.id != 0){
+			var transferPolicy3 = container.getGetTransferPolicy(eventData.slot2);
+			var transferPolicy4 = container.getAddTransferPolicy(eventData.slot1);
+			if(transferPolicy1 && transferPolicy1.transfer(container, eventData.slot1, slot1.id, slot1.count, slot1.data, slot1.extra, connectedClient.getPlayerUid()) != slot1.count) return;
+			if(transferPolicy3 && transferPolicy3.transfer(container, eventData.slot2, slot2.id, slot2.count, slot2.data, slot2.extra, connectedClient.getPlayerUid()) != slot2.count) return;
+			if(transferPolicy2 && transferPolicy2.transfer(container, eventData.slot2, slot1.id, slot1.count, slot1.data, slot1.extra, connectedClient.getPlayerUid()) != slot1.count) return;
+			if(transferPolicy4 && transferPolicy4.transfer(container, eventData.slot1, slot2.id, slot2.count, slot2.data, slot2.extra, connectedClient.getPlayerUid()) != slot2.count) return;
             container.setSlot(eventData.slot1, slot2.id, slot2.count, slot2.data, slot2.extra);
             container.setSlot(eventData.slot2, slot1.id, slot1.count, slot1.data, slot1.extra);
             container.sendChanges();
@@ -171,6 +177,9 @@ var defaultFunctions = {
         var transferPolicy1 = container.getGetTransferPolicy(eventData.slot1);
         var slot2 = player.getInventorySlot(eventData.slot2);
         if((slot2.id != slot1.id || slot2.data != slot1.data || (slot2.extra != slot1.extra && ((!slot2.extra || slot2.extra.getAllCustomData()) != (!slot1.extra || slot1.extra.getAllCustomData())))) && slot2.id != 0){
+        	var transferPolicy2 = container.getAddTransferPolicy(eventData.slot1);
+        	if(transferPolicy1 && transferPolicy1.transfer(container, eventData.slot1, slot1.id, slot1.count, slot1.data, slot1.extra, connectedClient.getPlayerUid()) != slot1.count) return;
+        	if(transferPolicy2 && transferPolicy2.transfer(container, eventData.slot1, slot2.id, slot2.count, slot2.data, slot2.extra, connectedClient.getPlayerUid()) != slot2.count) return;
             player.setInventorySlot(eventData.slot2, slot1.id, slot1.count, slot1.data, slot1.extra);
             container.setSlot(eventData.slot1, slot2.id, slot2.count, slot2.data, slot2.extra);
             container.sendChanges();
@@ -191,6 +200,7 @@ var defaultFunctions = {
         var slot2 = container.getSlot(eventData.slot2).asScriptable();
         var transferPolicy2 = container.getAddTransferPolicy(eventData.slot2);
         if((slot2.id != slot1.id || slot2.data != slot1.data || (slot2.extra != slot1.extra && ((!slot2.extra || slot2.extra.getAllCustomData()) != (!slot1.extra || slot1.extra.getAllCustomData())))) && slot2.id != 0){
+        	if(transferPolicy2 && transferPolicy2.transfer(container, eventData.slot2, slot1.id, slot1.count, slot1.data, slot1.extra, connectedClient.getPlayerUid()) != slot1.count) return;
             player.setInventorySlot(eventData.slot1, slot2.id, slot2.count, slot2.data, slot2.extra);
             container.setSlot(eventData.slot2, slot1.id, slot1.count, slot1.data, slot1.extra);
             container.sendChanges();
